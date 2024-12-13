@@ -1,4 +1,4 @@
-project(win-openvr)
+cmake_minimum_required(VERSION 3.22...3.25)
 
 include(ExternalProject)
 
@@ -24,6 +24,8 @@ target_sources(win-openvr PRIVATE win-openvr.cpp)
 
 target_link_libraries(win-openvr PRIVATE OBS::libobs OBS::w32-pthreads)
 
-setup_plugin_target(win-openvr)
+# cmake-format: off
+set_target_properties_obs(win-openvr PROPERTIES FOLDER plugins/win-openvr PREFIX "")
+# cmake-format: on
 
 install(FILES "${CMAKE_BINARY_DIR}/plugins/obs-openvr/openvrsdk-prefix/src/openvrsdk/bin/win64/openvr_api.dll" DESTINATION "${OBS_EXECUTABLE_DESTINATION}")

@@ -3,10 +3,6 @@
 // by Keijo "Kegetys" Ruotsalainen, http://www.kegetys.fi
 //
 
-#ifndef _CRT_SECURE_NO_WARNINGS
-	#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #include <obs-module.h>
 #include <graphics/image-file.h>
 #include <util/platform.h>
@@ -67,7 +63,7 @@ struct win_openvr {
 
 	ID3D11Texture2D *texCrop;
 
-	uint64_t lastCheckTick;
+	ULONGLONG lastCheckTick;
 
 	// Set in win_openvr_init, 0 until then.
 	unsigned int device_width;
@@ -231,7 +227,7 @@ static void win_openvr_init(void *data, bool forced = false)
 
 	obs_enter_graphics();
 	gs_texture_destroy(context->texture);
-	context->texture = gs_texture_open_shared(static_cast<uint32_t>((uint64_t)handle));
+	context->texture = gs_texture_open_shared(static_cast<uint32_t>(reinterpret_cast<uint64_t>(handle) & 0xFFFFFFFF));
 	obs_leave_graphics();
 
 	context->initialized = true;
